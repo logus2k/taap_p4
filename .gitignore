@@ -1,1 +1,80 @@
 .venv_taap_p4/
+cat > .gitignore <<'EOF'
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+build/
+dist/
+lib/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+results/logs/
+
+# Data
+data/
+datasets/
+*.csv
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.pkl
+*.joblib
+*.npy
+*.npz
+
+# Model artifacts
+*.keras
+*.h5
+*.ckpt
+*.pb
+checkpoints/
+models/
+saved_models/
+
+# TensorBoard
+logs_tb/
+tensorboard/
+events.out.tfevents.*
+
+# Results and generated outputs
+results/figures/
+results/tables/
+tmp/
+temp/
+
+# Profiling / cache
+.cache/
+.pytest_cache/
+.mypy_cache/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Environment files
+.env
+.env.*
+EOF
