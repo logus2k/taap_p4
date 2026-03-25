@@ -3,7 +3,9 @@ TIMEGAN_CONFIG = {
     "hidden_dim": 24,
     "num_layers": 3,
     "batch_size": 128,
-    "epochs": 100,
-    "learning_rate": 1e-3,
+    "ae_epochs": 20,
+    "sup_epochs": 20,
+    "adv_epochs": 15,
+    "learning_rate": 1e-4,
     "gamma": 1.0,
 }
