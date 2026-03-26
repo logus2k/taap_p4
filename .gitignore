@@ -33,9 +33,6 @@ logs/
 results/logs/
 
 # Data
-data/
-datasets/
-*.csv
 *.parquet
 *.feather
 *.h5
@@ -51,7 +48,6 @@ datasets/
 *.ckpt
 *.pb
 checkpoints/
-models/
 saved_models/
 
 # TensorBoard
@@ -77,4 +73,3 @@ htmlcov/
 # Environment files
 .env
 .env.*
-EOF
