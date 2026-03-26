@@ -1,7 +1,12 @@
 from src.features.scaling import get_scaler
 from src.features.windowing import make_windows
 from src.models.gru import build_gru_model
-from src.models.train_eval import train_model, evaluate_scaled_forecasts
+from src.models.train_eval import (
+    train_model,
+    evaluate_scaled_forecasts,
+    evaluate_original_scale_forecasts,
+    inverse_scale_target,
+)
 
 
 def evaluate_individual(
@@ -58,10 +63,31 @@ def evaluate_individual(
     )
 
     y_pred_val = model.predict(X_val, verbose=0)
-    metrics = evaluate_scaled_forecasts(y_val, y_pred_val)
+
+    scaled_metrics = evaluate_scaled_forecasts(y_val, y_pred_val)
+
+    target_mean = scaler.mean_[target_idx] if hasattr(scaler, "mean_") else None
+    target_scale = scaler.scale_[target_idx] if hasattr(scaler, "scale_") else None
+
+    if target_mean is not None and target_scale is not None:
+        y_val_inv = inverse_scale_target(y_val, target_mean, target_scale)
+        y_pred_val_inv = inverse_scale_target(y_pred_val, target_mean, target_scale)
+    else:
+        data_min = scaler.data_min_[target_idx]
+        data_max = scaler.data_max_[target_idx]
+
+        y_val_inv = y_val * (data_max - data_min) + data_min
+        y_pred_val_inv = y_pred_val * (data_max - data_min) + data_min
+
+    original_metrics = evaluate_original_scale_forecasts(y_val_inv, y_pred_val_inv)
 
     return {
         "cfg": cfg,
-        "fitness": metrics["mae_scaled"],
-        "metrics": metrics,
+        "fitness": original_metrics["mae"],
+        "metrics": {
+            "mae_scaled": scaled_metrics["mae_scaled"],
+            "rmse_scaled": scaled_metrics["rmse_scaled"],
+            "mae_degC": original_metrics["mae"],
+            "rmse_degC": original_metrics["rmse"],
+        },
     }
