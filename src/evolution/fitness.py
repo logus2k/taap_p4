@@ -1,3 +1,12 @@
+"""
+Fitness evaluation for evolutionary individuals.
+
+Implements the complete pipeline for scoring a candidate configuration:
+scale data → create windows → build GRU → train → predict → compute
+validation MAE in °C. The fitness (lower is better) is the original-
+scale MAE, ensuring invariance to the scaler choice in the genotype.
+"""
+
 from src.features.scaling import get_scaler
 from src.features.windowing import make_windows
 from src.models.gru import build_gru_model
@@ -10,6 +19,11 @@ import numpy as np
 
 
 def inverse_target_with_scaler(y_scaled, scaler, target_idx, n_features):
+    """Inverse-transform target predictions using any sklearn scaler.
+
+    Works with StandardScaler, RobustScaler, and MinMaxScaler by
+    constructing a dummy array and applying inverse_transform.
+    """
     original_shape = y_scaled.shape
     y_flat = y_scaled.reshape(-1)
 

@@ -1,3 +1,14 @@
+"""
+Configurable GRU model builder for multi-step temperature forecasting.
+
+Constructs a Keras Functional API model with 1–3 stacked GRU layers,
+optional dense projection, and flexible regularization (L2, dropout,
+Gaussian noise). Supports Adam and AdamW optimizers with gradient
+clipping, and multiple loss functions (MSE, MAE, Huber). All
+architectural and training parameters are exposed as arguments so the
+evolutionary algorithm can optimize them jointly.
+"""
+
 from tensorflow import keras
 from tensorflow.keras import layers
 

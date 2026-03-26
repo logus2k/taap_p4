@@ -1,3 +1,12 @@
+"""
+Feature engineering for the Jena Climate forecasting pipeline.
+
+Derives cyclical temporal encodings (hour-of-day, day-of-year) and
+wind vector decompositions (Cartesian components, gust metrics) from
+the raw meteorological variables. Expands the 6 original features
+to a 16-dimensional input vector used by all models.
+"""
+
 import numpy as np
 import pandas as pd
 

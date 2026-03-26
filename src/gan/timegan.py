@@ -1,3 +1,16 @@
+"""
+TimeGAN implementation for synthetic time series generation.
+
+Based on Yoon et al. (2019) "Time-series Generative Adversarial Networks".
+The model consists of five GRU-based sub-networks (embedder, recovery,
+generator, supervisor, discriminator) trained in three phases:
+  1. Autoencoder pretraining (embedder + recovery)
+  2. Supervisor pretraining (temporal dynamics in latent space)
+  3. Adversarial training (generator vs discriminator)
+
+Reference: https://proceedings.neurips.cc/paper/2019/hash/c9efe5f26cd17ba6216bbe2a7d3eed8-Abstract.html
+"""
+
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras

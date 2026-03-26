@@ -1,3 +1,10 @@
+"""
+Environment and reproducibility utilities.
+
+Provides functions to set global random seeds across all libraries,
+query GPU/CPU device information, and configure TensorFlow GPU memory.
+"""
+
 import os
 import random
 import numpy as np
@@ -5,6 +12,7 @@ import tensorflow as tf
 
 
 def set_global_seed(seed: int = 42) -> None:
+    """Fix random seeds for Python, NumPy, and TensorFlow."""
     os.environ["PYTHONHASHSEED"] = str(seed)
     random.seed(seed)
     np.random.seed(seed)

@@ -1,3 +1,12 @@
+"""
+TimeGAN hyperparameter configuration.
+
+Defines the default settings for the TimeGAN model: sequence length
+(matched to LOOKBACK + HORIZON = 144), GRU hidden dimension, number
+of layers, and training epochs for each of the three training phases
+(autoencoder, supervisor, adversarial).
+"""
+
 TIMEGAN_CONFIG = {
     "seq_len": 144,
     "hidden_dim": 24,

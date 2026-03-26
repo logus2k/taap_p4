@@ -5,14 +5,4 @@ scikit-learn
 matplotlib
 jupyterlab
 ipykernel
-seaborn
-plotly
-shap
-keras-tuner
-optuna
-statsmodels
-scipy
-tqdm
 psutil
-pydot
-graphviz

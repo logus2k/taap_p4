@@ -1,3 +1,13 @@
+"""
+Genetic algorithm evolutionary search loop.
+
+Implements a generational GA with tournament selection, uniform
+crossover, per-gene mutation, and elitism. Each generation evaluates
+all individuals by training a GRU model end-to-end and measuring
+validation MAE. The best configuration across all generations is
+returned along with the full evolution history.
+"""
+
 import random
 
 from src.evolution.individual import sample_individual
@@ -6,6 +16,7 @@ from src.evolution.fitness import evaluate_individual
 
 
 def tournament_selection(population_results, k=3):
+    """Select the best individual from k random candidates (lower fitness wins)."""
     candidates = random.sample(population_results, k=min(k, len(population_results)))
     candidates = sorted(candidates, key=lambda x: x["fitness"])
     return candidates[0]["cfg"]

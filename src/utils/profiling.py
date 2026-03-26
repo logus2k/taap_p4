@@ -1,3 +1,11 @@
+"""
+Model profiling and resource measurement utilities.
+
+Provides functions to count trainable parameters, measure inference
+latency with GPU synchronization, track RAM usage, and time arbitrary
+function calls. Used in Section 12 (Efficiency Analysis).
+"""
+
 import time
 from typing import Any, Callable, Dict
 

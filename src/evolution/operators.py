@@ -1,3 +1,12 @@
+"""
+Genetic operators: mutation and crossover.
+
+Mutation randomly resets each gene with a given probability.
+Crossover creates a child by uniformly sampling each gene from
+one of two parents. Both operators apply constraints after
+modification to ensure the resulting configuration is valid.
+"""
+
 import random
 from copy import deepcopy
 
@@ -6,6 +15,7 @@ from src.evolution.individual import apply_constraints
 
 
 def mutate_individual(cfg: dict, mutation_rate: float = 0.2) -> dict:
+    """Per-gene random reset mutation. Each gene flips with probability mutation_rate."""
     child = deepcopy(cfg)
 
     for key, values in SEARCH_SPACE.items():

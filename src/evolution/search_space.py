@@ -1,3 +1,12 @@
+"""
+Hyperparameter search space for the evolutionary algorithm.
+
+Defines the 15 genes that compose each individual's genotype, spanning
+architecture (layers, units, activations), regularization (dropout, L2,
+noise, clipping), training (optimizer, LR, loss, batch size), and
+preprocessing (scaler type). The total combinatorial space is ~10^9.
+"""
+
 SEARCH_SPACE = {
     "n_layers": [1, 2, 3],
     "units1": [64, 96, 128, 192],
