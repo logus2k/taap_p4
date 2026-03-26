@@ -1,1 +1,2 @@
 - [Notebook is source of truth](feedback_notebook_is_source_of_truth.md) — all report text must live in notebook markdown cells, Word is exported from it
+- [First run results](project_run1_results.md) — baseline 1.67°C MAE, EA best 1.70°C validation, EA config details

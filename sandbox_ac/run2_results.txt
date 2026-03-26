@@ -1,0 +1,62 @@
+Second notebook run results (BIG RUN) — 2026-03-26
+===================================================
+
+FINAL MODEL COMPARISON (Test Set):
+  Persistence:         MAE=3.1436°C   RMSE=4.2542°C
+  GRU Baseline:        MAE=1.6651°C   RMSE=2.2087°C
+  EA-Optimized GRU:    MAE=1.6660°C   RMSE=2.2127°C
+  Ensemble (Top 3):    MAE=1.6279°C   RMSE=2.1676°C   *** BEST ***
+
+Improvement over baseline:  -2.2% MAE  (-0.037°C)
+Improvement over persistence: -48.2% MAE
+
+EA Search (validation fitness progression):
+  Best validation fitness: 1.7074°C MAE
+  Best EA config same as Run 1 (deterministic seeds)
+
+Ensemble Individual Results:
+  Member 1: MAE=1.6760°C (val fitness 1.7074)
+  Member 2: MAE=1.6518°C (val fitness 1.7107)
+  Member 3: MAE=1.6486°C (val fitness 1.7146)
+  Ensemble:  MAE=1.6279°C (averaging improves over all individuals)
+
+Best EA Configuration (unchanged from Run 1):
+  n_layers=1, units1=192, units2=64, units3=64
+  dropout=0.0, l2=1e-6, dense_units=256, dense_activation=leaky_relu
+  lr=2e-4, batch_size=256, clipnorm=5.0
+  optimizer=adamw, weight_decay=1e-4, loss=huber1
+  gaussian_noise_std=0.05, scaler=standard
+  Total params: 176,536
+
+TimeGAN:
+  Autoencoder reconstruction MSE: 0.00116 (slightly better than Run 1: 0.00142)
+
+Permutation Importance (Global, top 5):
+  1. T (degC)       +0.3688 MAE increase (dominant)
+  2. hour_sin        +0.0369
+  3. hour_cos        +0.0322
+  4. rh (%)          +0.0277
+  5. wx              +0.0245
+
+Gradient Saliency (Local, Sample 0, top 5):
+  1. T (degC)        0.1772 mean saliency
+  2. doy_cos         0.0562
+  3. rh (%)          0.0428
+  4. p (mbar)        0.0417
+  5. hour_sin        0.0295
+
+Efficiency Comparison:
+                              GRU Baseline    EA-Optimized GRU
+  Trainable Parameters:          86,744          176,536
+  Inference Latency (mean):      15.14 ms         8.28 ms
+  Inference Latency (p95):       18.95 ms         9.59 ms
+  Throughput:                     2,113 s/s        3,866 s/s
+  Training Epochs (actual):         19               21
+  Process RAM:                  10,744 MB
+
+Notes:
+  - Ensemble provides the best result (1.6279°C) — 2.2% better than single best
+  - EA single best (1.666°C) essentially matches baseline (1.665°C)
+  - EA model is faster at inference despite 2x params (likely due to single wide layer vs 2 stacked layers)
+  - Temperature history dominates both global and local explanations
+  - tf.function fix (removed reduce_retracing) resolved Run 1 crash

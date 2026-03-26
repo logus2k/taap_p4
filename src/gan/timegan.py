@@ -195,7 +195,7 @@ class TimeGAN:
             clipnorm=1.0,
         )
 
-    @tf.function(reduce_retracing=True)
+    @tf.function
     def train_adversarial_step(self, X_real):
         batch_size = tf.shape(X_real)[0]
 

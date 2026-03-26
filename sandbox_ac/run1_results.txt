@@ -1,0 +1,28 @@
+First notebook run results — 2026-03-26
+========================================
+
+Test Set Metrics:
+  Persistence:         MAE=3.14°C   RMSE=4.25°C   MAE_scaled=0.3637  RMSE_scaled=0.4921
+  GRU Baseline:        MAE=1.67°C   RMSE=2.21°C   MAE_scaled=0.1926  RMSE_scaled=0.2555
+
+EA Search (validation fitness progression):
+  Gen 1: 1.734  Gen 2: 1.735  Gen 3: ?  Gen 4: ?  Gen 5: 1.707
+  Best overall validation fitness: 1.704°C MAE
+
+Best EA Configuration:
+  n_layers=1, units1=192, units2=64, units3=64
+  dropout=0.0, l2=1e-6, dense_units=256, dense_activation=leaky_relu
+  learning_rate=2e-4, batch_size=256, clipnorm=5.0
+  optimizer=adamw, weight_decay=1e-4, loss=huber1
+  gaussian_noise_std=0.05, scaler=standard
+  Total params: 176,536 (vs baseline 86,744)
+
+TimeGAN:
+  Autoencoder reconstruction MSE: 0.0014
+  Adversarial training: 15 epochs
+  Final losses: d_loss~1.2, g_loss~3.2
+  Synthetic range: [-2.42, 3.47]
+
+Notes:
+  - EA model NOT evaluated on test set in this run (sections 10-14 were stubs)
+  - tf.function reduce_retracing=True caused error on second run attempt (fixed)
