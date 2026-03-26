@@ -6,6 +6,6 @@ TIMEGAN_CONFIG = {
     "ae_epochs": 20,
     "sup_epochs": 20,
     "adv_epochs": 15,
-    "learning_rate": 1e-4,
+    "learning_rate": 1e-3,
     "gamma": 1.0,
 }
