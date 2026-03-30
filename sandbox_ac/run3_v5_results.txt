@@ -1,0 +1,60 @@
+V5 Notebook Run Results — 2026-03-30
+=====================================
+
+FINAL MODEL COMPARISON (Test Set):
+  Persistence:                MAE=3.1436°C   RMSE=4.2542°C
+  GRU Baseline Official:      MAE=1.6498°C   RMSE=2.1928°C   (86,744 params)
+  Best Evolutionary GRU:      MAE=1.5977°C   RMSE=2.1570°C   (63,512 params)  *** -3.2% vs baseline ***
+  Pruned Evolutionary GRU:    MAE=1.5748°C   RMSE=2.1336°C   (62,552 params)  *** BEST, -4.5% vs baseline ***
+
+EA Search Configuration:
+  Population: 20, Generations: 15, Total evaluations: 300
+  Best validation fitness: 1.6358°C MAE (Gen 4)
+  Convergence: Gen1=1.6575 → Gen4=1.6357 → Gen15=1.6365
+
+Best EA Configuration:
+  n_layers=2, units1=64, units2=64, units3=32
+  dropout=0.0, l2=1e-5, dense_units=256, dense_activation=relu
+  lr=3e-4, batch_size=256, clipnorm=2.0
+  optimizer=adamw, weight_decay=1e-4, loss=mae
+  gaussian_noise_std=0.0, scaler=robust, lookback=120
+  Total params: 63,512 (vs baseline 86,744 — SMALLER and BETTER)
+
+Robustness Across Seeds (Best EA):
+  Seed 7:  MAE=1.6102°C  RMSE=2.1748°C
+  Seed 21: MAE=1.5790°C  RMSE=2.1291°C
+  Seed 42: MAE=1.5894°C  RMSE=2.1492°C
+  Mean:    MAE=1.5928°C ± 0.0159  RMSE=2.1510°C ± 0.0229
+
+Robustness Across Seeds (Pruned EA):
+  Seed 7:  MAE=1.5820°C  RMSE=2.1422°C
+  Seed 21: MAE=1.5849°C  RMSE=2.1362°C
+  Seed 42: MAE=1.5685°C  RMSE=2.1234°C
+  Mean:    MAE=1.5785°C ± 0.0088  RMSE=2.1340°C ± 0.0095
+
+XAI-Guided Feature Pruning:
+  Removed 5 features: doy_sin, gust_ratio, wd (deg), wd_sin, wy
+  Kept 11 features: T, p, rh, wv, max.wv, hour_sin, hour_cos, doy_cos, wd_cos, wx, wind_gap
+  Result: MAE improved from 1.5977 → 1.5748°C (additional -1.4%)
+  Robustness: Lower std across seeds (0.0088 vs 0.0159)
+
+TimeGAN:
+  Autoencoder reconstruction MSE: 0.00117
+
+Efficiency:
+                              Baseline     Best EA      Pruned EA
+  Trainable Params:           86,744       63,512       62,552
+  Training Time (total):      ~38.9s       ~20.8s       ~18.8s
+  Time/Epoch:                 ~7.8s        ~4.2s        ~3.8s
+  Inference Latency (mean):   13.2ms       12.1ms       12.0ms
+  Throughput:                 ~2,430 s/s   ~2,637 s/s   ~2,667 s/s
+
+Key Changes from V4:
+  - EA budget 10x larger (300 vs 30 evaluations)
+  - Lookback added to search space (resolved gap)
+  - Robustness testing across 3 seeds (resolved gap)
+  - XAI-guided feature pruning (new technique)
+  - Comprehensive efficiency profiling (resolved gap)
+  - EA now produces SMALLER model (63k vs 177k params) that's BETTER
+  - No ensemble (removed) — single EA model already beats baseline
+  - Pruned model achieves best overall: 1.575°C MAE
