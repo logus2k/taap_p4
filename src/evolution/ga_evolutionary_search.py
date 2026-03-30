@@ -10,8 +10,8 @@ returned along with the full evolution history.
 
 import random
 
-from src.evolution.individual import sample_individual
-from src.evolution.operators import mutate_individual, crossover_individuals
+from src.evolution.genotype import sample_genotype
+from src.evolution.operators import mutate_genotype, crossover_genotypes
 from src.evolution.fitness import evaluate_individual
 
 
@@ -36,7 +36,7 @@ def run_evolutionary_search(
     epochs=10,
     verbose=0,
 ):
-    population = [sample_individual() for _ in range(population_size)]
+    population = [sample_genotype() for _ in range(population_size)]
     history = []
 
     best_result = None
@@ -74,8 +74,8 @@ def run_evolutionary_search(
         while len(next_population) < population_size:
             parent1 = tournament_selection(population_results)
             parent2 = tournament_selection(population_results)
-            child = crossover_individuals(parent1, parent2)
-            child = mutate_individual(child, mutation_rate=mutation_rate)
+            child = crossover_genotypes(parent1, parent2)
+            child = mutate_genotype(child, mutation_rate=mutation_rate)
             next_population.append(child)
 
         population = next_population

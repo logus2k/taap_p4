@@ -53,11 +53,23 @@ def evaluate_individual(
     X_train_scaled = scaler.fit_transform(X_train_df)
     X_val_scaled = scaler.transform(X_val_df)
 
-    X_train, y_train = make_windows(X_train_scaled, target_idx, lookback, horizon)
-    X_val, y_val = make_windows(X_val_scaled, target_idx, lookback, horizon)
+    effective_lookback = cfg.get("lookback", lookback)
+
+    X_train, y_train = make_windows(
+        X_train_scaled,
+        target_idx,
+        effective_lookback,
+        horizon,
+    )
+    X_val, y_val = make_windows(
+        X_val_scaled,
+        target_idx,
+        effective_lookback,
+        horizon,
+    )
 
     model = build_gru_model(
-        L=lookback,
+        L=effective_lookback,
         n_features=X_train.shape[2],
         H=horizon,
         units1=cfg["units1"],
